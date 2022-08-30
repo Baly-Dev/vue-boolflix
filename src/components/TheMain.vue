@@ -1,13 +1,26 @@
 <template>
-    <main>
-        <h1>Main</h1>
+    <main class="">
+        <FilmList 
+        :all="all" 
+        :configBaseUrl="configBaseUrl"
+        :configImageSize="configImageSize"
+        />
     </main>
 </template>
 
 <script>
-    export default{
-        name: 'TheMain'
+import FilmList from '@/components/FilmList.vue'
+export default{
+    name: 'TheMain',
+    props: {
+        all: Array,
+        configBaseUrl: String,
+        configImageSize: String
+    },
+    components:{
+        FilmList
     }
+}
 </script>
 
 <style scoped lang="scss">
