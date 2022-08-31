@@ -2,7 +2,7 @@
   <div id="app">
     <TheHeader @emitSearch="getSearchParameter"/>
     <TheMain 
-    :all="all" 
+    :data="data"
     :configBaseUrl="configBaseUrl" 
     :configImageSize="configImageSize"/>
   </div>
@@ -19,36 +19,46 @@ export default {
       // API variables
       apiKey: '9d11cf0c498e7d3a362df8e3213bee33',
       query: '',
-      flagCode:'',
 
       // Lists
       movies: [],
       shows: [],
-      all: [],
+      data: [],
       configBaseUrl: null,
-      configImageSize: null,
+      configImageSize: null
     }
   },
   methods:{
     apiCall(){
-      // movies call
-      axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
+      axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
+
+      
+      // movies search call
+      axios.get(`search/movie?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
       .then(res => {
         this.movies = res.data.results
         this.movies.forEach(movie =>{
-          this.all.push(movie)
+          
+          this.checkLanguage(movie)
+
+          movie.type = 'movie'
+          this.data.push(movie)
         })
       })
       .catch(err => {
         console.log(err)
       })
 
-      // shows call
-      axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
+      // shows search call
+      axios.get(`search/tv?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
       .then(res => {
         this.shows = res.data.results
         this.shows.forEach(show =>{
-          this.all.push(show)
+
+          this.checkLanguage(show)
+
+          show.type = 'show'
+          this.data.push(show)
         })
       })
       .catch(err => {
@@ -56,7 +66,7 @@ export default {
       })
 
       // config call
-      axios.get(`https://api.themoviedb.org/3/configuration?api_key=${this.apiKey}`)
+      axios.get(`configuration?api_key=${this.apiKey}`)
       .then(res => {
         this.configBaseUrl = res.data.images.base_url
         this.configImageSize = res.data.images.poster_sizes[3]
@@ -64,19 +74,28 @@ export default {
       .catch(err => {
         console.log(err)
       })
-
-      // languages flag call
     },
     getSearchParameter(parameter){
+      this.data = []
       this.query = parameter
       this.apiCall()
-
-      
-
     },
-    getFlags(){
+    checkLanguage(type){
+      if (type.original_language == ''){
+        type.original_language = 'n/a'
+      }
 
-      
+      if (type.original_language == 'en'){
+        type.original_language = 'gb'
+      }
+
+      if (type.original_language == 'ja'){
+        type.original_language = 'jp'
+      }
+
+      if (type.original_language == 'zh'){
+        type.original_language = 'cn'
+      }
     }
   },
   components: {

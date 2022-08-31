@@ -1,17 +1,21 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <img class="cover" :src="configBaseUrl + configImageSize + film.poster_path" alt="">
+            <img class="cover" :src="configBaseUrl + configImageSize + datum.poster_path" alt="">
         </div>
         <div class="card-body">
-            <h3>{{film.title}}</h3>
-            <p>{{film.original_title}}</p>
+            <div class="title">
+                <h3>{{datum.title}}</h3>
+                <p>{{datum.original_title}}</p>
 
-            <h3>{{film.name}}</h3>
-            <p>{{film.original_name}}</p>
-
-            <p>{{film.original_language}}</p>
-            <p>{{film.vote_average}}</p>
+                <h3>{{datum.name}}</h3>
+                <p>{{datum.original_name}}</p>
+            </div>
+            <div class="meta">
+                <p>{{datum.vote_average}}</p>
+                <p>{{datum.type}}</p>
+            </div>
+            <span :class="'fi fi-' + datum.original_language"></span>
         </div>
     </div>
 </template>
@@ -20,14 +24,9 @@
 export default {
     name: 'FilmCard',
     props:{
-        film: Object,
+        datum: Object,
         configBaseUrl: String,
         configImageSize: String
-    },
-    data(){
-        return{
-            imgPath: ''
-        }
     }
 }
 </script>

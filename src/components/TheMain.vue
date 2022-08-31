@@ -1,7 +1,7 @@
 <template>
     <main class="">
         <FilmList 
-        :all="all" 
+        :data="data"
         :configBaseUrl="configBaseUrl"
         :configImageSize="configImageSize"
         />
@@ -13,7 +13,7 @@ import FilmList from '@/components/FilmList.vue'
 export default{
     name: 'TheMain',
     props: {
-        all: Array,
+        data: Array,
         configBaseUrl: String,
         configImageSize: String
     },

@@ -1,7 +1,7 @@
 <template>
     <section class="container card-group">
-        <FilmCard v-for="film in all" :key="film.id" 
-        :film="film"
+        <FilmCard v-for="datum in data" :key="datum.id" 
+        :datum="datum"
         :configBaseUrl="configBaseUrl" 
         :configImageSize="configImageSize"
         />
@@ -13,7 +13,7 @@ import FilmCard from '@/components/FilmCard.vue'
 export default {
     name: 'FilmList',
     props:{
-        all: Array,
+        data: Array,
         configBaseUrl: String,
         configImageSize: String
     },
