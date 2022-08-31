@@ -25,4 +25,7 @@ export default{
 
 <style scoped lang="scss">
 @import '@/assets/scss/global.scss';
+main{
+    padding: 20px 0px;
+}
 </style>

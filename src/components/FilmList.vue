@@ -31,7 +31,7 @@ export default {
     flex-wrap: wrap;
 
     .card{
-        width: calc(100% / 5);
+        width: calc(100% / 4);
     }
 }
 </style>

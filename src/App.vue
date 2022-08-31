@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TheHeader/>
+    <TheHeader @emitSearch="getSearchParameter"/>
     <TheMain 
     :all="all" 
     :configBaseUrl="configBaseUrl" 
@@ -18,63 +18,65 @@ export default {
     return{
       // API variables
       apiKey: '9d11cf0c498e7d3a362df8e3213bee33',
-      apiSearchConfig:
-      {
-        moviePath: 'search/movie',
-        showPath: 'search/tv',
-        configPath: 'configuration',
-        query: 'Star Wars'
-      },
-      movieURI: null,
-      showURi: null,
+      query: '',
+      flagCode:'',
 
       // Lists
       movies: [],
       shows: [],
       all: [],
       configBaseUrl: null,
-      configImageSize: null
+      configImageSize: null,
     }
-  },
-  created(){
-    this.apiCall()
   },
   methods:{
     apiCall(){
       // movies call
-      axios.get(this.generateMovieURI())
+      axios.get(`https://api.themoviedb.org/3/search/movie?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
       .then(res => {
         this.movies = res.data.results
-
         this.movies.forEach(movie =>{
           this.all.push(movie)
         })
       })
+      .catch(err => {
+        console.log(err)
+      })
+
       // shows call
-      axios.get(this.generateShowURI())
+      axios.get(`https://api.themoviedb.org/3/search/tv?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
       .then(res => {
         this.shows = res.data.results
-
         this.shows.forEach(show =>{
           this.all.push(show)
         })
       })
+      .catch(err => {
+        console.log(err)
+      })
 
       // config call
-      axios.get(this.generateConfigURI())
+      axios.get(`https://api.themoviedb.org/3/configuration?api_key=${this.apiKey}`)
       .then(res => {
         this.configBaseUrl = res.data.images.base_url
         this.configImageSize = res.data.images.poster_sizes[3]
       })
+      .catch(err => {
+        console.log(err)
+      })
+
+      // languages flag call
     },
-    generateMovieURI(){
-      return `${this.apiSearchConfig.moviePath}?api_key=${this.apiKey}&query=${this.apiSearchConfig.query}`
+    getSearchParameter(parameter){
+      this.query = parameter
+      this.apiCall()
+
+      
+
     },
-    generateShowURI(){
-      return `${this.apiSearchConfig.showPath}?api_key=${this.apiKey}&query=${this.apiSearchConfig.query}`
-    },
-    generateConfigURI(){
-      return `${this.apiSearchConfig.configPath}?api_key=${this.apiKey}`
+    getFlags(){
+
+      
     }
   },
   components: {
