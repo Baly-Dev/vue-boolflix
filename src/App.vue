@@ -32,7 +32,6 @@ export default {
     apiCall(){
       axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
 
-      
       // movies search call
       axios.get(`search/movie?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
       .then(res => {

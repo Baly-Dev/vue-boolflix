@@ -12,8 +12,12 @@
                 <p>{{datum.original_name}}</p>
             </div>
             <div class="meta">
-                <p>{{datum.vote_average}}</p>
                 <p>{{datum.type}}</p>
+                
+                <i v-for="(fill, i) in rankingPoint" :key="i" class="fa-solid fill fa-star"></i>
+                <i v-show="reminder.length > 0" v-for="(empty, i) in reminder" :key="i" class="fa-solid empty fa-star"></i>
+                
+                
             </div>
             <span :class="'fi fi-' + datum.original_language"></span>
         </div>
@@ -27,6 +31,28 @@ export default {
         datum: Object,
         configBaseUrl: String,
         configImageSize: String
+    },
+    data(){
+        return{
+            rankingPoint: [],
+            reminder: []
+        }
+    },
+    created(){
+        console.log(this.getRanking())
+    },
+    methods:{
+        getRanking(){
+            const ranking = Math.ceil(this.datum.vote_average / 2)
+            for(let i = 0; i < ranking; i++){
+                this.rankingPoint.push(i)
+            }
+            const reminderTrack = 5 - this.rankingPoint.length
+            for(let i = 0; i < reminderTrack; i++){
+                this.reminder.push(i)
+            }
+            
+        }
     }
 }
 </script>
@@ -38,5 +64,13 @@ export default {
     .cover{
         width: 100%;
     }
+}
+
+.empty{
+    color: rgb(202, 202, 202);
+}
+
+.fill{
+    color: rgb(234, 222, 2);
 }
 </style>
