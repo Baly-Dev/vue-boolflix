@@ -3,6 +3,11 @@
         <div class="card-header">
             <img v-if="datum.poster_path == null" class="cover" src="https://fakeimg.pl/500x700/262626/" alt="">
             <img v-else class="cover" :src="configBaseUrl + configImageSize + datum.poster_path" alt="">
+            <div class="overlay">
+                <h4>Overview</h4>
+                <p v-if="datum.overview != ''">{{datum.overview}}</p>
+                <p v-else>Overview non disponibile</p>
+            </div>
         </div>
         <div class="card-body">
             <div class="main-info">
@@ -58,7 +63,6 @@ export default {
     }
 }
 </script>
-
 <style scoped lang="scss">
 @import '@/assets/scss/global.scss';
 .card{
@@ -66,8 +70,39 @@ export default {
 
     .card-header{
         border: 2px solid $primary-dark;
+        margin-bottom: 5px;
         height: 350px;
         border-radius: 6px;
+        position: relative;
+        cursor: pointer;
+
+        .overlay{
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+            background-color: rgba(0,0,0,0.8);
+            display: none;
+            padding: 10px;
+            color: #fff;
+
+            h4{
+                margin-bottom: 5px;
+            }
+            p{
+                font-size: 0.8em;
+                line-height: 1.3em;
+            }
+        }
+
+        &:hover .overlay{
+            display: block;
+        }
 
         .cover{
         width: 100%;
@@ -75,12 +110,14 @@ export default {
         object-fit: cover;
         object-position: top;
         border-radius: 4px;
-        cursor: pointer;
-    }
+        }
     }
 
     .card-body{
         padding: 10px;
+        background-color: $primary-dark;
+        border-radius: 6px;
+        
         .main-info{
             color: #fff;
             margin-bottom: 10px;
@@ -98,12 +135,15 @@ export default {
         display: flex;
         justify-content: space-between;
     }
+
     .empty{
     color: rgb(202, 202, 202);
     }
+
     .fill{
         color: rgb(234, 222, 2);
     }
+
     span{
         font-size: 0.7em;
     }
