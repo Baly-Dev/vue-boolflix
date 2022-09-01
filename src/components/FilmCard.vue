@@ -1,7 +1,8 @@
 <template>
     <div class="card">
         <div class="card-header">
-            <img class="cover" :src="configBaseUrl + configImageSize + datum.poster_path" alt="">
+            <img v-if="datum.poster_path == null" class="cover" src="https://fakeimg.pl/500x700/262626/" alt="">
+            <img v-else class="cover" :src="configBaseUrl + configImageSize + datum.poster_path" alt="">
         </div>
         <div class="card-body">
             <div class="title">
@@ -12,12 +13,8 @@
                 <p>{{datum.original_name}}</p>
             </div>
             <div class="meta">
-                <p>{{datum.type}}</p>
-                
                 <i v-for="(fill, i) in rankingPoint" :key="i" class="fa-solid fill fa-star"></i>
                 <i v-show="reminder.length > 0" v-for="(empty, i) in reminder" :key="i" class="fa-solid empty fa-star"></i>
-                
-                
             </div>
             <span :class="'fi fi-' + datum.original_language"></span>
         </div>

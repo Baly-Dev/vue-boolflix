@@ -40,14 +40,20 @@ export default{
 header{
     height: 60px;
     display: flex;
-    background-color: darkgray;
-    
+    background-color: $primary-dark;
 
     nav{
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 0px 10px;
+
+        .navbar-brand{
+            color: #fff;
+            font-size: 1.4rem;
+            font-weight: 600;
+            text-decoration: none;
+        }
     }
 }
 </style>
