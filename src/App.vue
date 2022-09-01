@@ -31,13 +31,24 @@ export default {
   methods:{
     apiCall(){
       axios.defaults.baseURL = 'https://api.themoviedb.org/3/'
+      const apiParams = {
+        api_key: this.apiKey,
+        language: 'it-It',
+        query: this.query
+      }
 
+      this.getMovieApi(apiParams)
+      this.getShowApi(apiParams)
+      this.getConfigApi()
+    },
+    getMovieApi(par){
       // movies search call
-      axios.get(`search/movie?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
+      axios.get('search/movie', {params:par})
       .then(res => {
         this.movies = res.data.results
         this.movies.forEach(movie =>{
           
+          // chekin ISO mismatch
           this.checkLanguage(movie)
 
           movie.type = 'movie'
@@ -47,13 +58,15 @@ export default {
       .catch(err => {
         console.log(err)
       })
-
+    },
+    getShowApi(par){
       // shows search call
-      axios.get(`search/tv?api_key=${this.apiKey}&query=${this.query}&language=it-IT`)
+      axios.get('search/tv', {params:par})
       .then(res => {
         this.shows = res.data.results
         this.shows.forEach(show =>{
 
+          // chekin ISO mismatch
           this.checkLanguage(show)
 
           show.type = 'show'
@@ -63,7 +76,8 @@ export default {
       .catch(err => {
         console.log(err)
       })
-
+    },
+    getConfigApi(){
       // config call
       axios.get(`configuration?api_key=${this.apiKey}`)
       .then(res => {

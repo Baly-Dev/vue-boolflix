@@ -23,7 +23,7 @@
             <div class="meta-info">
                 <div>
                     <i v-for="(fill, i) in rankingPoint" :key="i" class="fa-solid fill fa-star"></i>
-                <i v-show="reminder.length > 0" v-for="(empty, i) in reminder" :key="i" class="fa-solid empty fa-star"></i>
+                    <i v-show="reminder.length > 0" v-for="(empty, i) in reminder" :key="i" class="fa-solid empty fa-star"></i>
                 </div>
                 <span :class="'fi fi-' + datum.original_language"></span>
             </div>
