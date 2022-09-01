@@ -2,7 +2,7 @@
     <header>
         <nav class="container navbar">
             <div class="right">
-                <a class="navbar-brand" href="#">Boolflix</a>
+                <a class="navbar-brand" href="#">Balyflix</a>
             </div>
             <div class="left">
                 <FilmSearch @emitSearch="getSearchParameter"/>

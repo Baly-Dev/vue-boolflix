@@ -7,6 +7,14 @@
 /* Flags Icon */
 @import url("'~flag-icons/css/flag-icons.min.css");
 
+
+/* vars */
+$primary-dark: #111C26;
+$primary-normal: #384D59;
+$primary-light: #4D6873;
+$secondary: #C1D4D9;
+$dark: #0D0D0D;
+
 /* CSS Reset */
 *{
     padding: 0;
@@ -16,6 +24,7 @@
 
 html{
     font-family: 'Roboto', sans-serif;
+    background-color: $primary-normal;
 }
 
 /* globals */
@@ -23,10 +32,3 @@ html{
     width: 1200px;
     margin: 0 auto;
 }
-
-/* vars */
-$primary-dark: #111C26;
-$primary-normal: #384D59;
-$primary-light: #4D6873;
-$secondary: #C1D4D9;
-$dark: #0D0D0D;

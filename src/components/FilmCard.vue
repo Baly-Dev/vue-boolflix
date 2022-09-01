@@ -5,18 +5,23 @@
             <img v-else class="cover" :src="configBaseUrl + configImageSize + datum.poster_path" alt="">
         </div>
         <div class="card-body">
-            <div class="title">
-                <h3>{{datum.title}}</h3>
-                <p>{{datum.original_title}}</p>
-
-                <h3>{{datum.name}}</h3>
-                <p>{{datum.original_name}}</p>
+            <div class="main-info">
+                <div v-show="datum.type == 'movie'">
+                    <h3>{{datum.title}}</h3>
+                    <p>{{datum.original_title}}</p>
+                </div>
+                <div v-show="datum.type == 'show'">
+                    <h3>{{datum.name}}</h3>
+                    <p>{{datum.original_name}}</p>
+                </div>
             </div>
-            <div class="meta">
-                <i v-for="(fill, i) in rankingPoint" :key="i" class="fa-solid fill fa-star"></i>
+            <div class="meta-info">
+                <div>
+                    <i v-for="(fill, i) in rankingPoint" :key="i" class="fa-solid fill fa-star"></i>
                 <i v-show="reminder.length > 0" v-for="(empty, i) in reminder" :key="i" class="fa-solid empty fa-star"></i>
+                </div>
+                <span :class="'fi fi-' + datum.original_language"></span>
             </div>
-            <span :class="'fi fi-' + datum.original_language"></span>
         </div>
     </div>
 </template>
@@ -58,16 +63,49 @@ export default {
 @import '@/assets/scss/global.scss';
 .card{
     padding: 10px;
-    .cover{
+
+    .card-header{
+        border: 2px solid $primary-dark;
+        height: 350px;
+        border-radius: 6px;
+
+        .cover{
         width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top;
+        border-radius: 4px;
+        cursor: pointer;
     }
-}
+    }
 
-.empty{
+    .card-body{
+        padding: 10px;
+        .main-info{
+            color: #fff;
+            margin-bottom: 10px;
+            h3{
+                font-size: 1em;
+                margin-bottom: 5px;
+            }
+            p{
+                font-size: 0.5em
+            }
+        }
+    }
+
+    .meta-info{
+        display: flex;
+        justify-content: space-between;
+    }
+    .empty{
     color: rgb(202, 202, 202);
-}
-
-.fill{
-    color: rgb(234, 222, 2);
+    }
+    .fill{
+        color: rgb(234, 222, 2);
+    }
+    span{
+        font-size: 0.7em;
+    }
 }
 </style>
