@@ -1,6 +1,6 @@
 <template>
     <div class="inputbox">
-        <input v-model="searchParameter" class="search-input" type="text" placeholder="Search">
+        <input v-model="searchParameter" @keyup.enter="emitSearchParameter" class="search-input" type="text" placeholder="Search">
         <button @click="emitSearchParameter" class="btn">Search</button>
     </div>
 </template>

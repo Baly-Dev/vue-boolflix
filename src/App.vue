@@ -2,9 +2,16 @@
   <div id="app">
     <TheHeader @emitSearch="getSearchParameter"/>
     <TheMain 
-    :data="data"
+    :movies="movies"
+    :shows="shows"
     :configBaseUrl="configBaseUrl" 
     :configImageSize="configImageSize"/>
+    <TheFooter 
+    :moviesPages="moviesPages"
+    :showsPages="showsPages"
+    @nextPage="getNextPage"
+    @prevPage="getPrevPage"
+    />
   </div>
 </template>
 
@@ -12,6 +19,7 @@
 import axios from 'axios'
 import TheHeader from './components/TheHeader.vue'
 import TheMain from './components/TheMain.vue'
+import TheFooter from './components/TheFooter.vue'
 export default {
   name: 'App',
   data(){
@@ -23,7 +31,9 @@ export default {
       // Lists
       movies: [],
       shows: [],
-      data: [],
+      moviesPages: {},
+      showsPages: {},
+      currentPage: 1,
       configBaseUrl: null,
       configImageSize: null
     }
@@ -34,7 +44,8 @@ export default {
       const apiParams = {
         api_key: this.apiKey,
         language: 'it-It',
-        query: this.query
+        query: this.query, 
+        page: this.currentPage
       }
 
       this.getMovieApi(apiParams)
@@ -45,14 +56,15 @@ export default {
       // movies search call
       axios.get('search/movie', {params:par})
       .then(res => {
+
+        // getting data
+        this.moviesPages = res.data
         this.movies = res.data.results
+
         this.movies.forEach(movie =>{
-          
           // chekin ISO mismatch
           this.checkLanguage(movie)
-
           movie.type = 'movie'
-          this.data.push(movie)
         })
       })
       .catch(err => {
@@ -63,14 +75,15 @@ export default {
       // shows search call
       axios.get('search/tv', {params:par})
       .then(res => {
-        this.shows = res.data.results
-        this.shows.forEach(show =>{
 
+        // getting data
+        this.showsPages = res.data
+        this.shows = res.data.results
+
+        this.shows.forEach(show =>{
           // chekin ISO mismatch
           this.checkLanguage(show)
-
           show.type = 'show'
-          this.data.push(show)
         })
       })
       .catch(err => {
@@ -89,8 +102,21 @@ export default {
       })
     },
     getSearchParameter(parameter){
-      this.data = []
+      this.movies = []
+      this.shows = []
       this.query = parameter
+      this.apiCall()
+    },
+    getNextPage(parameter){
+      this.movies = []
+      this.shows = []
+      this.currentPage = parameter
+      this.apiCall()
+    },
+    getPrevPage(parameter){
+      this.movies = []
+      this.shows = []
+      this.currentPage = parameter
       this.apiCall()
     },
     checkLanguage(type){
@@ -113,7 +139,8 @@ export default {
   },
   components: {
     TheMain,
-    TheHeader
+    TheHeader,
+    TheFooter
   }
 }
 </script>

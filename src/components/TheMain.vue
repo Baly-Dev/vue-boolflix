@@ -1,12 +1,13 @@
 <template>
-    <main >
+    <main>
         <div class="header container">
-            <h2 v-if="data.length > 1">Risultati ricerca</h2>
+            <h2 v-if="movies.length > 0 || shows.length > 0">Risultati ricerca</h2>
             <h2 v-else>Effettua una ricerca per ottenre i risultati</h2>
-            <span class="tag">{{data.length}}</span>
+            <!--<span class="tag">{{movie.length}}</span>-->
         </div>
         <FilmList 
-        :data="data"
+        :movies="movies"
+        :shows="shows"
         :configBaseUrl="configBaseUrl"
         :configImageSize="configImageSize"
         />
@@ -18,7 +19,8 @@ import FilmList from '@/components/FilmList.vue'
 export default{
     name: 'TheMain',
     props: {
-        data: Array,
+        movies:Array,
+        shows:Array,
         configBaseUrl: String,
         configImageSize: String
     },
@@ -33,6 +35,7 @@ export default{
 main{
     padding: 60px 0px;
     background-color: $primary-normal;
+    height: calc(100vh - (60px + 40px));
     .header{
         padding: 0px 10px;
         display: flex;
@@ -41,7 +44,7 @@ main{
 
         h2{
             color: #fff;
-            font-size: 1.3em;
+            font-size: 1.6em;
         }
 
         .tag{
